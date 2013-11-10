@@ -1,7 +1,10 @@
-language: objective-c
+language: cpp
 compiler:
     - gcc
+before_install:
+    - sudo apt-get update -qq
 install:
+    - sudo apt-get install gfortran
     - gem install gist
     - curl -s -O www.coin-or.org/download/source/OS/OS-2.8.1.tgz
     - tar -xzf OS-2.8.1.tgz

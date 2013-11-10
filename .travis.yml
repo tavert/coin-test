@@ -1,10 +1,10 @@
-language: cpp
+language: objective-c
 compiler:
     - gcc
 before_install:
-    - sudo apt-get update
+    - brew update
 install:
-    - sudo apt-get install gfortran
+    - brew install gfortran
     - svn co https://projects.coin-or.org/svn/CoinBinary/CoinAll/stable/1.7 ~/CoinAll-1.7
 script:
     - cd ~/CoinAll-1.7

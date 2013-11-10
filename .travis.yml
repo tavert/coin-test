@@ -2,7 +2,7 @@ language: objective-c
 compiler:
     - gcc
 install:
-    - svn co --trust-server-cert https://projects.coin-or.org/svn/CoinBinary/CoinAll/stable/1.7 ~/CoinAll-1.7
+    - svn co --non-interactive --trust-server-cert https://projects.coin-or.org/svn/CoinBinary/CoinAll/stable/1.7 ~/CoinAll-1.7
 script:
     - cd ~/CoinAll-1.7
     - ./get.AllThirdParty

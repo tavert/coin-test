@@ -1,16 +1,12 @@
-language: cpp
+language: objective-c
 compiler:
     - gcc
-before_install:
-    - sudo apt-get update -qq
 install:
-    - sudo apt-get install gfortran
     - gem install gist
-    - svn export -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/CoinBinary/CoinAll/releases/1.7.2 ~/CoinAll-1.7.2
+    - curl -s -O www.coin-or.org/download/source/OS/OS-2.8.1.tgz
+    - tar -xzf OS-2.8.1.tgz
 script:
-    - cd ~/CoinAll-1.7.2 && ./get.AllThirdParty
+    - cd OS-2.8.1 && for i in ASL Blas Lapack Glpk Metis Mumps; do cd ThirdParty/$i && ./get.$i && cd ../..; done
     - mkdir build && cd build && ../configure -C
     - (make all -j4 | gist)
-    - echo "make output was uploaded to above URL"
-    - make install
-    - make test
+    - echo "make output was uploaded to above URL" && make install && make test

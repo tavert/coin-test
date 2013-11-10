@@ -1,15 +1,12 @@
-language: cpp
-compiler:
-    - gcc
+language: objective-c
 before_install:
-    - sudo apt-get update -qq
+    - brew update > /dev/null
 install:
-    - sudo apt-get install gfortran
-    - svn export --non-interactive --trust-server-cert https://projects.coin-or.org/svn/CoinBinary/CoinAll/stable/1.7 ~/CoinAll-1.7
+    - brew install gfortran
+    - svn export -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/CoinBinary/CoinAll/stable/1.7 ~/CoinAll-1.7
 script:
-    - cd ~/CoinAll-1.7
-    - ./get.AllThirdParty > /dev/null
+    - cd ~/CoinAll-1.7 && ./get.AllThirdParty
     - mkdir build && cd build && ../configure -C
-    - (make all -j4 -s)
+    - (AM_LDFLAGS="--quiet" make all -j4 -s)
     - make install
     - make test

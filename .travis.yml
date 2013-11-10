@@ -1,0 +1,14 @@
+language: cpp
+compiler:
+    - gcc
+before_install:
+    - sudo apt-get update
+install:
+    - sudo apt-get install gfortran
+    - svn co https://projects.coin-or.org/svn/CoinBinary/CoinAll/stable/1.7 ~/CoinAll-1.7
+script:
+    - cd ~/CoinAll-1.7
+    - ./get.AllThirdParty
+    - mkdir build
+    - cd build
+    - ../configure && make install && make test

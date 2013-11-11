@@ -1,0 +1,11 @@
+# linux build
+box: wercker/default
+services:
+  - conradz/clang@0.0.3
+build:
+  steps:
+    - script:
+        name: Do build
+        code: tr -d '\r' < build.sh > build_d2u.sh && sh -ev build_d2u.sh
+# tr -d '\r' < infile > outfile removes carriage returns so I don't have to
+# run dos2unix every time before I commit, and dos2unix isn't installed (?)

@@ -5,21 +5,24 @@ compiler:
     - clang
 before_install:
     - sudo apt-get update -qq
+# use xvfb to emulate a display for the matplotlib tests in GIMPy
+    - "export DISPLAY=:99.0"
+    - "sh -e /etc/init.d/xvfb start"
 install:
-    - sudo apt-get install gfortran python-matplotlib
-#    - sudo pip install matplotlib
+    - sudo apt-get install -qq gfortran python-matplotlib
     - gem install gist
 script:
-    - echo "CC is $CC, CXX is $CXX"
-    - svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/CoinBinary/CoinAll/trunk ~/CoinAll-trunk
+    - COIN_PROJECT=CoinBazaar/projects/GIMPy/trunk
+    - echo "CC is $CC, CXX is $CXX, COIN_PROJECT is $COIN_PROJECT"
+    - svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT ~/$COIN_PROJECT
 # do svn update in case of connectivity trouble during checkout
-    - cd ~/CoinAll-trunk && svn update --non-interactive --trust-server-cert
-    - for i in ASL Blas Lapack Glpk Metis Mumps; do cd ThirdParty/$i && ./get.$i && cd ../..; done
+    - cd ~/$COIN_PROJECT && svn update --non-interactive --trust-server-cert
+    - for i in `ls ThirdParty/*/get.*`; do cd `dirname $i` && ./`basename $i` && cd ../..; done
 # add a newline at end of CoinUtils/src/CoinLpIO.hpp until fixed
-    - echo "" >> CoinUtils/src/CoinLpIO.hpp
+#    - echo "" >> CoinUtils/src/CoinLpIO.hpp
     - mkdir build && cd build && ../configure -C
     - curl -Sso wrap.rb https://gist.github.com/roidrage/5238585/raw
-    - chmod +x wrap.rb && ./wrap.rb "make all -j2 2>&1 > make.log"
+    - chmod +x wrap.rb && ./wrap.rb "make all -j4 > make.log 2>&1"
     - echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL" && gist config.log make.log
 # should upload more of the subdirectory config.log's too once that works
     - make install && make test

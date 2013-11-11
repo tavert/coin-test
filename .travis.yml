@@ -1,12 +1,9 @@
-# linux build
-language: gcc
+# mac build
+language: objective-c
 compiler:
     - gcc
     - clang
-before_install:
-    - sudo apt-get update -qq
 install:
-    - sudo apt-get install gfortran
     - gem install gist
 script:
     - svn co -q --non-interactive https://projects.coin-or.org/svn/CoinBinary/CoinAll/trunk ~/CoinAll-trunk
@@ -20,3 +17,4 @@ script:
     - make all -j2 > make.log
     - echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL: " && gist make.log config.log */config.log */*/config.log
     - make install && make test
+

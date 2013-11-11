@@ -6,9 +6,9 @@ set -e
 COIN_PROJECT=CoinUtils/trunk
 
 # install prerequisites using apt-cyg
-svn export https://github.com/Simuc/apt-cyg.git/trunk/apt-cyg apt-cyg
+svn export https://github.com/zship/apt-cyg.git/trunk/apt-cyg apt-cyg
 chmod +x apt-cyg
-./apt-cyg install -64 mingw64-x86_64-gcc-fortran
+./apt-cyg install mingw64-x86_64-gcc-fortran
 
 # download COIN source
 svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT ~/$COIN_PROJECT

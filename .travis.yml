@@ -7,9 +7,9 @@ env:
 install:
     - brew install freetype libpng
 #    - brew link freetype
-    - sudo easy_install matplotlib
+#    - sudo easy_install matplotlib
 #    - sudo easy_install pip
-#    - pip install "git+http://github.com/matplotlib/matplotlib.git#egg=matplotlib"
+    - pip install "git+http://github.com/matplotlib/matplotlib.git#egg=matplotlib"
     - gem install gist
 script:
     - COIN_PROJECT=CoinBazaar/projects/GIMPy/trunk

@@ -4,7 +4,7 @@ COIN_PROJECT=CoinUtils
 PROJECT_VERSION=trunk
 
 # install prerequisites using apt-cyg
-svn export https://github.com/zship/apt-cyg.git/trunk/apt-cyg apt-cyg
+svn export https://github.com/caseman72/apt-cyg.git/trunk/apt-cyg apt-cyg
 chmod +x apt-cyg
 ./apt-cyg install make gcc-g++ gcc-fortran
 #./apt-cyg install make mingw64-x86_64-gcc-g++ mingw64-x86_64-gcc-fortran

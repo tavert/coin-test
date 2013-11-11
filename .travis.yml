@@ -6,7 +6,7 @@ env:
     - CC=clang CXX=clang++
 install:
 #    - sudo easy_install matplotlib
-    - easy_install pip
+    - sudo easy_install pip
     - pip install "git+http://github.com/matplotlib/matplotlib.git#egg=matplotlib"
     - gem install gist
 script:

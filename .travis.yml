@@ -5,8 +5,7 @@ env:
     - CC=gcc CXX=g++
     - CC=clang CXX=clang++
 install:
-    - brew install freetype
-#libpng
+    - brew install freetype libpng
 #    - brew link freetype
     - sudo easy_install matplotlib
 #    - sudo easy_install pip

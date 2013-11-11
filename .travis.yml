@@ -18,7 +18,7 @@ script:
     - cd ~/$COIN_PROJECT && svn update --non-interactive --trust-server-cert
     - for i in `ls ThirdParty/*/get.*`; do cd `dirname $i` && ./`basename $i` && cd ../..; done
 # add a newline at end of CoinUtils/src/CoinLpIO.hpp until fixed
-#    - echo "" >> CoinUtils/src/CoinLpIO.hpp
+    - mkdir -p CoinUtils/src && echo "" >> CoinUtils/src/CoinLpIO.hpp
     - mkdir build && cd build && ../configure -C
     - curl -Sso wrap.rb https://gist.github.com/roidrage/5238585/raw
     - chmod +x wrap.rb && ./wrap.rb "make all -j4 > make.log 2>&1"

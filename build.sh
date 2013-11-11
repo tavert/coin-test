@@ -12,7 +12,7 @@ PROJECT_VERSION=trunk
 #  sudo ln -s $WERCKER_CACHE_DIR/apt-get /var/cache/apt/archives
 #fi
 sudo apt-get update -qq
-sudo apt-get install gfortran subversion ruby
+sudo apt-get install gfortran subversion ruby clang
 sudo gem install gist
 
 # download COIN source, will do an update if already downloaded
@@ -51,7 +51,14 @@ cd ..
 #rm -rf build_clang || true
 mkdir -p build_clang
 cd build_clang
-../configure -C CC=clang CXX=clang++ || gist config.log
+do_gist=no
+../configure -C CC=clang CXX=clang++ || do_gist=yes
+if test $do_gist = yes; then
+  echo "CONFIG.LOG UPLOADED TO URL:"
+  gist config.log
+  exit 1
+# should also upload subfolder config.log's, if I can get that to work
+fi
 make all -j4
 make install
 make test

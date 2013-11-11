@@ -4,10 +4,6 @@ env:
     - CC=gcc CXX=g++
     - CC=clang CXX=clang++
 # using compiler: section to do this doesn't seem to work on mac
-before_install:
-# use xvfb to emulate a display for the matplotlib tests in GIMPy
-    - "export DISPLAY=:99.0"
-    - "sh -e /etc/init.d/xvfb start"
 install:
 #    - sudo pip install matplotlib
     - gem install gist

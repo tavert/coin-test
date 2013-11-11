@@ -22,19 +22,18 @@ for i in `ls ThirdParty/*/get.*`; do
 done
 
 # add a newline at end of CoinUtils/src/CoinLpIO.hpp until fixed
-if test -f CoinUtils/src/CoinLpIO.hpp; then
-  echo "" >> CoinUtils/src/CoinLpIO.hpp
-fi
+mkdir -p CoinUtils/src
+echo "" >> CoinUtils/src/CoinLpIO.hpp
 
 # build in the main source tree to avoid symlinking data files
 #mkdir build
 #cd build
-./configure -C --host=x86_64-w64-mingw32
+./configure -C CYGPATH_W="cygpath -w" --host=x86_64-w64-mingw32
 make all -j4
 make install
-echo $PATH
-cd $COIN_PROJECT/test
-make unitTest.exe
-ldd unitTest.exe
-cd ../..
+#echo $PATH
+#cd $COIN_PROJECT/test
+#make unitTest.exe
+#ldd unitTest.exe
+#cd ../..
 make test

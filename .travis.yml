@@ -7,7 +7,7 @@ env:
 install:
     - brew install freetype libpng
 #    - sudo easy_install matplotlib
-    - sudo easy_install pip
+    - sudo easy_install pip pyparsing
     - pip install "git+http://github.com/matplotlib/matplotlib.git#egg=matplotlib"
     - gem install gist
 script:

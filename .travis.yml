@@ -5,7 +5,7 @@ env:
     - CC=clang CXX=clang++
 # using compiler: section to do this doesn't seem to work on mac
 install:
-#    - sudo pip install matplotlib
+    - easy_install matplotlib
     - gem install gist
 script:
     - COIN_PROJECT=CoinBazaar/projects/GIMPy/trunk

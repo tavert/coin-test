@@ -1,0 +1,4 @@
+# this branch is not for travis-ci unless they add windows eventually
+branches:
+  except:
+    - windows

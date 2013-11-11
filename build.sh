@@ -16,7 +16,7 @@ svn update --non-interactive --trust-server-cert
 for i in `ls ThirdParty/*/get.*`; do
   cd `dirname $i`
   ./`basename $i`
-  cd ../..;
+  cd ../..
 done
 
 # add a newline at end of CoinUtils/src/CoinLpIO.hpp until fixed

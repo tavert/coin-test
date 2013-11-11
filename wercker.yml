@@ -4,18 +4,22 @@ build:
   steps:
     - script:
         name: Do build
-        code:
-            - COIN_PROJECT=CoinUtils/trunk
-            - echo "CC is $CC, CXX is $CXX, COIN_PROJECT is $COIN_PROJECT"
+        code: which sh && which dos2unix && sh --verbose build.sh
+
+
+
+#            - COIN_PROJECT=CoinUtils/trunk
+#            - echo "CC is $CC, CXX is $CXX, COIN_PROJECT is $COIN_PROJECT"
 # download COIN source
-            - svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT ~/$COIN_PROJECT
+#            - svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT ~/$COIN_PROJECT
 # do svn update in case of connectivity trouble during checkout
-            - cd ~/$COIN_PROJECT && svn update --non-interactive --trust-server-cert
-            - for i in `ls ThirdParty/*/get.*`; do cd `dirname $i` && ./`basename $i` && cd ../..; done
+#            - cd ~/$COIN_PROJECT && svn update --non-interactive --trust-server-cert
+#            - for i in `ls ThirdParty/*/get.*`; do cd `dirname $i` && ./`basename $i` && cd ../..; done
 # add a newline at end of CoinUtils/src/CoinLpIO.hpp until fixed
 #            - echo "" >> CoinUtils/src/CoinLpIO.hpp
-            - mkdir build && cd build && ../configure -C
-            - make all -j4 && make install && make test
+#            - mkdir build && cd build && ../configure -C
+#            - make all -j4 && make install && make test
+
 
 #    - curl -Sso wrap.rb https://gist.github.com/roidrage/5238585/raw
 #    - chmod +x wrap.rb && ./wrap.rb "make all -j4 > make.log 2>&1"

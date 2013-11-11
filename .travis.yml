@@ -1,11 +1,12 @@
 # mac build
 language: objective-c
 env:
+# using compiler: section to do this doesn't seem to work on mac
     - CC=gcc CXX=g++
     - CC=clang CXX=clang++
-# using compiler: section to do this doesn't seem to work on mac
 install:
-    - sudo easy_install matplotlib
+#    - sudo easy_install matplotlib
+    - pip install "git+http://github.com/matplotlib/matplotlib.git#egg=matplotlib"
     - gem install gist
 script:
     - COIN_PROJECT=CoinBazaar/projects/GIMPy/trunk

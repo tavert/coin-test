@@ -9,10 +9,10 @@ before_install:
     - "export DISPLAY=:99.0"
     - "sh -e /etc/init.d/xvfb start"
 install:
-    - sudo apt-get install -qq gfortran python-matplotlib
+    - sudo apt-get install gfortran python-matplotlib -qq
     - gem install gist
 script:
-    - COIN_PROJECT=CoinBazaar/projects/GIMPy/trunk
+    - COIN_PROJECT=FlopC++/trunk
     - echo "CC is $CC, CXX is $CXX, COIN_PROJECT is $COIN_PROJECT"
     - svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT ~/$COIN_PROJECT
 # do svn update in case of connectivity trouble during checkout

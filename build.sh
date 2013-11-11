@@ -6,6 +6,7 @@ PROJECT_VERSION=trunk
 
 # install prerequisites
 if ! test -L /var/cache/apt/archives; then
+  mkdir -p $WERCKER_CACHE_DIR/apt-get
   sudo mv -f /var/cache/apt/archives/* $WERCKER_CACHE_DIR/apt-get
   sudo rm -r /var/cache/apt/archives
   sudo ln -s $WERCKER_CACHE_DIR/apt-get /var/cache/apt/archives

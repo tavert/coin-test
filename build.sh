@@ -4,10 +4,10 @@ COIN_PROJECT=CoinUtils
 PROJECT_VERSION=trunk
 
 # install prerequisites using apt-cyg
-svn export https://github.com/Simuc/apt-cyg.git/trunk/apt-cyg apt-cyg
-chmod +x apt-cyg
-./apt-cyg -m http://mirrors.kernel.org/sourceware/cygwin/ install make gcc-g++ gcc-fortran
-#./apt-cyg install make mingw64-x86_64-gcc-g++ mingw64-x86_64-gcc-fortran
+svn export https://github.com/kou1okada/apt-cyg.git/trunk/apt-cyg /usr/local/bin/apt-cyg
+chmod +x /usr/local/bin/apt-cyg
+apt-cyg -m http://mirrors.kernel.org/sourceware/cygwin/ install make gcc-g++ gcc-fortran
+#apt-cyg install make mingw64-x86_64-gcc-g++ mingw64-x86_64-gcc-fortran
 
 # download COIN source
 svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT/$PROJECT_VERSION ~/$COIN_PROJECT/$PROJECT_VERSION

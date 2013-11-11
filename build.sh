@@ -31,12 +31,26 @@ done
 mkdir -p CoinUtils/src
 echo "" >> CoinUtils/src/CoinLpIO.hpp
 
+# default gcc build
 # uncomment one of the below cleanup lines if potential problems from past builds (config changes, etc)
 #rm build/config.cache || true
 #rm -rf build || true
 mkdir -p build
 cd build
 ../configure -C
+make all -j4
+make install
+make test
+
+cd ..
+
+# clang build
+# uncomment one of the below cleanup lines if potential problems from past builds (config changes, etc)
+#rm build_clang/config.cache || true
+#rm -rf build_clang || true
+mkdir -p build_clang
+cd build_clang
+../configure -C CC=clang CXX=clang++
 make all -j4
 make install
 make test

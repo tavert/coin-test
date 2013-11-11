@@ -1,8 +1,5 @@
 #!/usr/bin/sh
 
-# stop on error
-set -e
-
 COIN_PROJECT=CoinUtils/trunk
 
 # install prerequisites using apt-cyg
@@ -24,17 +21,12 @@ for i in `ls ThirdParty/*/get.*`; do
 done
 
 # add a newline at end of CoinUtils/src/CoinLpIO.hpp until fixed
-#echo "" >> CoinUtils/src/CoinLpIO.hpp
+if test -f CoinUtils/src/CoinLpIO.hpp; then
+  echo "" >> CoinUtils/src/CoinLpIO.hpp
+fi
 
-mkdir build
-cd build
-../configure -C --host=x86_64-w64-mingw32
+# build in the main source tree to avoid symlinking data files
+./configure -C --host=x86_64-w64-mingw32
 make all -j4
 make install
 make test
-
-#    - curl -Sso wrap.rb https://gist.github.com/roidrage/5238585/raw
-#    - chmod +x wrap.rb && ./wrap.rb "make all -j4 > make.log 2>&1"
-#    - echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL" && gist config.log make.log
-# should upload more of the subdirectory config.log's too once that works
-#    - make install && make test

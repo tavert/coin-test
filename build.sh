@@ -6,7 +6,7 @@ PROJECT_VERSION=trunk
 # install prerequisites using apt-cyg
 svn export https://github.com/kou1okada/apt-cyg.git/trunk/apt-cyg apt-cyg
 chmod +x apt-cyg
-./apt-cyg install make gcc-g++ gcc-fortran
+./apt-cyg -m http://cygwin.mirrors.pair.com install make gcc-g++ gcc-fortran
 #./apt-cyg install make mingw64-x86_64-gcc-g++ mingw64-x86_64-gcc-fortran
 
 # download COIN source

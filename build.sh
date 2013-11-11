@@ -4,7 +4,11 @@
 set -e
 
 COIN_PROJECT=CoinUtils/trunk
-echo "CC is $CC, CXX is $CXX, COIN_PROJECT is $COIN_PROJECT"
+
+# install prerequisites using apt-cyg
+svn export https://github.com/GiannisRambo/apt-cyg.git/trunk/apt-cyg /bin/apt-cyg
+chmod +x /bin/apt-cyg
+apt-cyg install gcc-fortran
 
 # download COIN source
 svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT ~/$COIN_PROJECT

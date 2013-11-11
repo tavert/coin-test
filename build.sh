@@ -3,7 +3,7 @@
 # stop on error
 set -e
 
-COIN_PROJECT=CoinBazaar/projects/GIMPy/trunk
+COIN_PROJECT=CoinUtils/trunk
 echo "CC is $CC, CXX is $CXX, COIN_PROJECT is $COIN_PROJECT"
 
 # download COIN source

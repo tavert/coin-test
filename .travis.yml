@@ -15,5 +15,5 @@ script:
     - echo "CC is $CC, CXX is $CXX"
     - mkdir build && cd build && ../configure -C
     - make all -j2 > make.log
-    - echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL: " && gist make.log config.log */config.log */*/config.log
+    - echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL" && gist make.log config.log */config.log */*/config.log
     - make install && make test

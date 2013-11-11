@@ -5,10 +5,11 @@ compiler:
     - clang
 install:
     - gem install gist
+#    - pip install matplotlib
 script:
     - svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/CoinBinary/CoinAll/trunk ~/CoinAll-trunk
 # do svn update in case of connectivity trouble during checkout
-    - cd ~/CoinAll-trunk && svn update
+    - cd ~/CoinAll-trunk && svn update --non-interactive --trust-server-cert
     - for i in ASL Blas Lapack Glpk Metis Mumps; do cd ThirdParty/$i && ./get.$i && cd ../..; done
 # add a newline at end of CoinUtils/src/CoinLpIO.hpp until fixed
     - echo "" >> CoinUtils/src/CoinLpIO.hpp
@@ -16,5 +17,6 @@ script:
     - mkdir build && cd build && ../configure -C
     - curl -Sso wrap.rb https://gist.github.com/roidrage/5238585/raw
     - chmod +x wrap.rb && ./wrap.rb "make all -j2 2>&1 > make.log"
-    - echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL" && gist make.log config.log */config.log */*/config.log
+    - echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL" && gist config.log make.log
+# should upload more of the subdirectory config.log's too once that works
     - make install && make test

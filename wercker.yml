@@ -1,7 +1,8 @@
 # linux build
 box: wercker/default
-services:
-  - conradz/clang@0.0.3
+# this doesn't seem to actually install clang...
+#services:
+#  - conradz/clang@0.0.3
 build:
   steps:
     - script:

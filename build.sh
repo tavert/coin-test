@@ -4,13 +4,18 @@
 COIN_PROJECT=CoinUtils
 PROJECT_VERSION=trunk
 
+# this script could also be useful outside of a wercker context...
+if test -z "$WERCKER_CACHE_DIR"; then
+  WERCKER_CACHE_DIR=$HOME
+fi
+
 # install prerequisites
-#if ! test -L /var/cache/apt/archives; then
-#  mkdir -p $WERCKER_CACHE_DIR/apt-get
-#  sudo mv -f /var/cache/apt/archives/* $WERCKER_CACHE_DIR/apt-get
-#  sudo rm -r /var/cache/apt/archives
-#  sudo ln -s $WERCKER_CACHE_DIR/apt-get /var/cache/apt/archives
-#fi
+if ! test -L /var/cache/apt/archives; then
+# link apt-get cache into WERCKER_CACHE_DIR
+  mkdir -p $WERCKER_CACHE_DIR/apt-get
+  sudo rm -r /var/cache/apt/archives
+  sudo ln -s $WERCKER_CACHE_DIR/apt-get /var/cache/apt/archives
+fi
 sudo apt-get update -qq
 sudo apt-get install gfortran subversion ruby clang
 sudo gem install gist
@@ -38,7 +43,14 @@ mkdir -p CoinUtils/src
 #rm -rf build || true
 mkdir -p build
 cd build
-../configure -C
+do_gist=no
+../configure -C || do_gist=yes
+if test $do_gist = yes; then
+  echo "CONFIG.LOG UPLOADED TO URL:"
+  gist config.log
+  exit 1
+# should also upload subfolder config.log's, if I can get that to work
+fi
 make all -j4
 make install
 make test

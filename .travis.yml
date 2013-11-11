@@ -14,6 +14,7 @@ script:
     - echo "" >> CoinUtils/src/CoinLpIO.hpp
     - echo "CC is $CC, CXX is $CXX"
     - mkdir build && cd build && ../configure -C
-    - make all -j2 > make.log
-    - echo CONFIGURE AND MAKE LOGS UPLOADED TO URL\: && gist make.log config.log */config.log */*/config.log
+    - curl -Sso wrap.rb https://gist.github.com/roidrage/5238585/raw
+    - chmod +x wrap.rb && ./wrap.rb "make all -j2 2>&1 > make.log"
+    - echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL" && gist make.log config.log */config.log */*/config.log
     - make install && make test

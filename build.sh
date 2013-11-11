@@ -21,7 +21,15 @@ sudo apt-get install gfortran subversion ruby clang
 sudo gem install gist
 
 # download COIN source, will do an update if already downloaded
-svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT/$PROJECT_VERSION $WERCKER_CACHE_DIR/$COIN_PROJECT/$PROJECT_VERSION
+svn_broken=no
+svn_cmds="-q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT/$PROJECT_VERSION $WERCKER_CACHE_DIR/$COIN_PROJECT/$PROJECT_VERSION"
+svn co $svn_cmds || svn_broken=yes
+# svn incompatibility may require retrying a few times
+if test $svn_broken = yes; then
+# so much for the cache... hopefully this won't need to happen too often
+  rm -rf $WERCKER_CACHE_DIR/$COIN_PROJECT/$PROJECT_VERSION
+  svn co $svn_cmds
+fi
 cd $WERCKER_CACHE_DIR/$COIN_PROJECT/$PROJECT_VERSION
 # do svn update in case of connectivity trouble during checkout (seems to only be a travis problem)
 #svn update --non-interactive --trust-server-cert

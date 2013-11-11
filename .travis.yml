@@ -17,4 +17,4 @@ script:
     - make all -j2 > make.log
     - echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL: " && gist make.log config.log */config.log */*/config.log
     - make install && make test
-
+... # end of file

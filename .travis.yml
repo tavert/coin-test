@@ -6,7 +6,7 @@ compiler:
 install:
     - gem install gist
 script:
-    - svn co -q --non-interactive https://projects.coin-or.org/svn/CoinBinary/CoinAll/trunk ~/CoinAll-trunk
+    - svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/CoinBinary/CoinAll/trunk ~/CoinAll-trunk
 # do svn update in case of connectivity trouble during checkout
     - cd ~/CoinAll-trunk && svn update
     - for i in ASL Blas Lapack Glpk Metis Mumps; do cd ThirdParty/$i && ./get.$i && cd ../..; done
@@ -15,5 +15,5 @@ script:
     - echo "CC is $CC, CXX is $CXX"
     - mkdir build && cd build && ../configure -C
     - make all -j2 > make.log
-    - echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL" && gist make.log config.log */config.log */*/config.log
+    - echo CONFIGURE AND MAKE LOGS UPLOADED TO URL\: && gist make.log config.log */config.log */*/config.log
     - make install && make test

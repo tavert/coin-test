@@ -29,7 +29,7 @@ done
 
 # add a newline at end of CoinUtils/src/CoinLpIO.hpp until fixed
 mkdir -p CoinUtils/src
-echo "" >> CoinUtils/src/CoinLpIO.hpp
+#echo "" >> CoinUtils/src/CoinLpIO.hpp
 
 # default gcc build
 # uncomment one of the below cleanup lines if potential problems from past builds (config changes, etc)
@@ -50,7 +50,7 @@ cd ..
 #rm -rf build_clang || true
 mkdir -p build_clang
 cd build_clang
-../configure -C CC=clang CXX=clang++
+../configure -C CC=clang CXX=clang++ || gist config.log
 make all -j4
 make install
 make test

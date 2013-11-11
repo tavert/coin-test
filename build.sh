@@ -12,7 +12,7 @@ PROJECT_VERSION=trunk
 #  sudo ln -s $WERCKER_CACHE_DIR/apt-get /var/cache/apt/archives
 #fi
 sudo apt-get update -qq
-sudo apt-get install gfortran
+sudo apt-get install gfortran subversion
 
 # download COIN source, will do an update if already downloaded
 svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT/$PROJECT_VERSION $WERCKER_CACHE_DIR/$COIN_PROJECT/$PROJECT_VERSION

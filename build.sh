@@ -1,7 +1,7 @@
 #!/bin/sh
 # linux build
 
-COIN_PROJECT=OS
+COIN_PROJECT=DyLP
 PROJECT_VERSION=trunk
 
 # this script could also be useful outside of a wercker context...
@@ -17,7 +17,7 @@ if ! test -L /var/cache/apt/archives; then
   sudo ln -s $WERCKER_CACHE_DIR/apt-get /var/cache/apt/archives
 fi
 sudo apt-get update -qq
-sudo apt-get install gfortran subversion ruby clang
+sudo apt-get install gfortran subversion ruby clang m4
 # ruby is for this script that uploads logs anonymously to gist.github.com
 sudo gem install gist
 
@@ -36,7 +36,7 @@ cd $WERCKER_CACHE_DIR/$COIN_PROJECT/$PROJECT_VERSION
 #svn update --non-interactive --trust-server-cert
 
 # run autotools (old versions currently used)?
-if test 1 = 1; then
+if test 1 = 0; then
   wget https://projects.coin-or.org/BuildTools/raw-attachment/ticket/105/dependencies_multipatch_config_option.patch
   patch -p0 < dependencies_multipatch_config_option.patch
   mkdir -p $WERCKER_CACHE_DIR/autotools_old
@@ -60,7 +60,7 @@ for i in `ls ThirdParty/*/get.*`; do
 done
 
 # add a newline at end of CoinUtils/src/CoinLpIO.hpp until fixed
-mkdir -p CoinUtils/src
+#mkdir -p CoinUtils/src
 #echo "" >> CoinUtils/src/CoinLpIO.hpp
 
 # default gcc build
@@ -70,7 +70,8 @@ mkdir -p CoinUtils/src
 mkdir -p build
 cd build
 do_gist=no
-../configure -C LDFLAGS="-Wl,--no-undefined" --enable-dependency-linking || do_gist=yes
+# LDFLAGS="-Wl,--no-undefined"
+../configure -C --enable-dependency-linking || do_gist=yes
 if test $do_gist = yes; then
   echo "CONFIG.LOG UPLOADED TO URL:"
   gist config.log
@@ -82,14 +83,14 @@ make install
 make test
 
 # clang build, change next line to enable
-if test 1 = 0; then
+if test 1 = 1; then
   # uncomment one of the following cleanup lines if potential problems from past builds (config changes, etc)
   #rm ../build_clang/config.cache || true
   #rm -rf ../build_clang || true
   mkdir -p ../build_clang
   cd ../build_clang
   do_gist=no
-  ../configure -C CC=clang CXX=clang++ || do_gist=yes
+  ../configure -C --enable-dependency-linking CC=clang CXX=clang++ || do_gist=yes
   if test $do_gist = yes; then
     echo "CONFIG.LOG UPLOADED TO URL:"
     gist config.log

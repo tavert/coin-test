@@ -2,28 +2,29 @@
 language: cpp
 compiler:
     - gcc
-#    - clang
+    - clang
 before_install:
     - sudo apt-get update -qq
 install:
     - sudo apt-get install gfortran
     - gem install gist
 script:
-    - COIN_PROJECT=OS/trunk
+    - COIN_PROJECT=DyLP/trunk
     - echo "CC is $CC, CXX is $CXX, COIN_PROJECT is $COIN_PROJECT"
     - svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT ~/$COIN_PROJECT
 # do svn update in case of connectivity trouble during checkout
     - cd ~/$COIN_PROJECT && svn update --non-interactive --trust-server-cert
-# apply my dependencies patch
-    - wget https://projects.coin-or.org/BuildTools/raw-attachment/ticket/105/dependencies_multipatch_config_option.patch && patch -p0 < dependencies_multipatch_config_option.patch
+# apply dependencies patch
+#    - wget https://projects.coin-or.org/BuildTools/raw-attachment/ticket/105/dependencies_multipatch_config_option.patch && patch -p0 < dependencies_multipatch_config_option.patch
 # run autotools
-    - wget https://projects.coin-or.org/BuildTools/raw-attachment/ticket/95/get_autotools.patch && patch -p0 < get_autotools.patch && cd autotools && chmod +x get.autotools && ./get.autotools > get_autotools.log && export PATH=$PWD/bin:$PATH && export AUTOTOOLS_DIR=$PWD && cd .. && BuildTools/run_autotools > run_autotools.log
+#    - wget https://projects.coin-or.org/BuildTools/raw-attachment/ticket/95/get_autotools.patch && patch -p0 < get_autotools.patch && cd autotools && chmod +x get.autotools && ./get.autotools > get_autotools.log && export PATH=$PWD/bin:$PATH && export AUTOTOOLS_DIR=$PWD && cd .. && BuildTools/run_autotools > run_autotools.log
     - for i in `ls ThirdParty/*/get.*`; do cd `dirname $i` && ./`basename $i` && cd ../..; done
 # install matplotlib and start xvfb to emulate a display if GIMPy included
     - "if test -e GIMPy; then sudo apt-get install python-matplotlib && export DISPLAY=:99.0 && sh -e /etc/init.d/xvfb start; fi"
 # add a newline at end of CoinUtils/src/CoinLpIO.hpp until fixed
 #    - mkdir -p CoinUtils/src && echo "" >> CoinUtils/src/CoinLpIO.hpp
-    - mkdir build && cd build && ../configure -C LDFLAGS="-Wl,--no-undefined" --enable-dependency-linking
+# LDFLAGS="-Wl,--no-undefined"
+    - mkdir build && cd build && ../configure -C --enable-dependency-linking
 # download and use a ruby wrapper that just outputs a 10-second heartbeat dot
     - curl -Sso wrap.rb https://gist.github.com/roidrage/5238585/raw
     - chmod +x wrap.rb && ./wrap.rb "make all -j4 > make.log 2>&1"

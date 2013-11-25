@@ -9,7 +9,7 @@ install:
     - sudo apt-get install gfortran
     - gem install gist
 script:
-    - COIN_PROJECT=DyLP/trunk
+    - COIN_PROJECT=CoinBinary/CoinAll/trunk
     - echo "CC is $CC, CXX is $CXX, COIN_PROJECT is $COIN_PROJECT"
     - svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT ~/$COIN_PROJECT
 # do svn update in case of connectivity trouble during checkout

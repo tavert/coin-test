@@ -1,7 +1,7 @@
 #!/bin/sh
 # linux build
 
-COIN_PROJECT=DyLP
+COIN_PROJECT=CoinBinary/CoinAll
 PROJECT_VERSION=trunk
 
 # this script could also be useful outside of a wercker context...

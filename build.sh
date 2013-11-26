@@ -72,11 +72,11 @@ do_gist=yes
 ../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined -Wl,--no-as-needed" || do_gist=yes
 if test $do_gist = yes; then
   echo "CONFIG.LOG UPLOADED TO URL:"
-  gist config.log Dip/config.log Dip/Makefile
+  gist config.log Dip/config.log Dip/src/Makefile
 #  exit 1
 # should also upload subfolder config.log's, if I can get that to work
 fi
-time( make all -j4 )
+make all -j4
 time( make install )
 time( make test )
 
@@ -89,14 +89,14 @@ if test 1 = 1; then
   mkdir -p ../build_clang
   cd ../build_clang
   do_gist=yes
-  ../configure -C --enable-dependency-linking CC=clang CXX=clang++ COIN_SKIP_PROJECTS=FlopCpp || do_gist=yes
+  ../configure -C --enable-dependency-linking CC=clang CXX=clang++ COIN_SKIP_PROJECTS=FlopCpp LDFLAGS="-Wl,--no-undefined" || do_gist=yes
   if test $do_gist = yes; then
     echo "CONFIG.LOG UPLOADED TO URL:"
-    gist config.log Dip/config.log Dip/Makefile
+    gist config.log Dip/config.log Dip/src/Makefile
 #    exit 1
   # should also upload subfolder config.log's, if I can get that to work
   fi
-  time( make all -j4 )
+  make all -j4
   time( make install )
   time( make test )
 fi

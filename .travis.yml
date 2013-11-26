@@ -14,13 +14,13 @@ script:
     - svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT ~/$COIN_PROJECT
 # do svn update in case of connectivity trouble during checkout
     - cd ~/$COIN_PROJECT && svn update --non-interactive --trust-server-cert
-# run autotools
-#    - wget https://projects.coin-or.org/BuildTools/raw-attachment/ticket/95/get_autotools.patch && patch -p0 < get_autotools.patch && cd autotools && chmod +x get.autotools && ./get.autotools > get_autotools.log && export PATH=$PWD/bin:$PATH && export AUTOTOOLS_DIR=$PWD && cd .. && BuildTools/run_autotools > run_autotools.log
-    - for i in `ls ThirdParty/*/get.*`; do cd `dirname $i` && ./`basename $i` && cd ../..; done
 # install matplotlib and start xvfb to emulate a display if GiMPy included
     - "if test -e GiMPy -o -e src/gimpy; then sudo apt-get install python-matplotlib && export DISPLAY=:99.0 && sh -e /etc/init.d/xvfb start; fi"
 # install pulp if GrUMPy included
     - "if test -e GrUMPy -o -e src/grumpy; then sudo easy_install pulp; fi"
+# run autotools
+#    - wget https://projects.coin-or.org/BuildTools/raw-attachment/ticket/95/get_autotools.patch && patch -p0 < get_autotools.patch && cd autotools && chmod +x get.autotools && ./get.autotools > get_autotools.log && export PATH=$PWD/bin:$PATH && export AUTOTOOLS_DIR=$PWD && cd .. && BuildTools/run_autotools > run_autotools.log
+    - for i in `ls ThirdParty/*/get.*`; do cd `dirname $i` && ./`basename $i` && cd ../..; done
 #COIN_SKIP_PROJECTS=FlopCpp
     - mkdir build && cd build && if test $CXX = g++; then ../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined -Wl,--no-as-needed"; else ../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined"; fi
 # download and use a ruby wrapper that just outputs a 10-second heartbeat dot

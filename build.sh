@@ -17,7 +17,7 @@ if ! test -L /var/cache/apt/archives; then
   sudo ln -s $WERCKER_CACHE_DIR/apt-get /var/cache/apt/archives
 fi
 sudo apt-get update -qq
-sudo apt-get install gfortran subversion ruby clang m4
+sudo apt-get install gfortran subversion ruby
 # ruby is for this script that uploads logs anonymously to gist.github.com
 sudo gem install gist
 
@@ -37,8 +37,7 @@ cd $WERCKER_CACHE_DIR/$COIN_PROJECT/$PROJECT_VERSION
 
 # run autotools (old versions currently used)?
 if test 1 = 0; then
-  wget https://projects.coin-or.org/BuildTools/raw-attachment/ticket/105/dependencies_multipatch_config_option.patch
-  patch -p0 < dependencies_multipatch_config_option.patch
+  sudo apt-get install m4
   mkdir -p $WERCKER_CACHE_DIR/autotools_old
   wget https://projects.coin-or.org/BuildTools/raw-attachment/ticket/95/get_autotools.patch
   patch -p0 < get_autotools.patch
@@ -65,13 +64,12 @@ done
 
 # default gcc build
 # uncomment one of the following cleanup lines if potential problems from past builds (config changes, etc)
-#rm build/config.cache || true
-#rm -rf build || true
+rm build/config.cache || true
+rm -rf build || true
 mkdir -p build
 cd build
 do_gist=no
-# LDFLAGS="-Wl,--no-undefined"
-../configure -C --enable-dependency-linking || do_gist=yes
+../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined" || do_gist=yes
 if test $do_gist = yes; then
   echo "CONFIG.LOG UPLOADED TO URL:"
   gist config.log
@@ -84,13 +82,14 @@ make test
 
 # clang build, change next line to enable
 if test 1 = 1; then
+  sudo apt-get install clang
   # uncomment one of the following cleanup lines if potential problems from past builds (config changes, etc)
   #rm ../build_clang/config.cache || true
   #rm -rf ../build_clang || true
   mkdir -p ../build_clang
   cd ../build_clang
   do_gist=no
-  ../configure -C --enable-dependency-linking CC=clang CXX=clang++ || do_gist=yes
+  ../configure -C --enable-dependency-linking CC=clang CXX=clang++ COIN_SKIP_PROJECTS=FlopCpp || do_gist=yes
   if test $do_gist = yes; then
     echo "CONFIG.LOG UPLOADED TO URL:"
     gist config.log

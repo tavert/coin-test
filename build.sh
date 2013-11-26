@@ -65,20 +65,20 @@ done
 # default gcc build
 # uncomment one of the following cleanup lines if potential problems from past builds (config changes, etc)
 #rm build/config.cache || true
-#rm -rf build || true
+rm -rf build || true
 mkdir -p build
 cd build
-do_gist=yes
+do_gist=no
 ../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined -Wl,--no-as-needed" || do_gist=yes
 if test $do_gist = yes; then
   echo "CONFIG.LOG UPLOADED TO URL:"
-  gist config.log Dip/config.log Dip/src/Makefile
-#  exit 1
+  gist config.log
+  exit 1
 # should also upload subfolder config.log's, if I can get that to work
 fi
 make all -j4
-time( make install )
-time( make test )
+make install
+make test
 
 # clang build, change next line to enable
 if test 1 = 0; then
@@ -88,15 +88,15 @@ if test 1 = 0; then
   #rm -rf ../build_clang || true
   mkdir -p ../build_clang
   cd ../build_clang
-  do_gist=yes
+  do_gist=no
   ../configure -C --enable-dependency-linking CC=clang CXX=clang++ COIN_SKIP_PROJECTS=FlopCpp LDFLAGS="-Wl,--no-undefined" || do_gist=yes
   if test $do_gist = yes; then
     echo "CONFIG.LOG UPLOADED TO URL:"
-    gist config.log Dip/config.log Dip/src/Makefile
-#    exit 1
+    gist config.log
+    exit 1
   # should also upload subfolder config.log's, if I can get that to work
   fi
   make all -j4
-  time( make install )
-  time( make test )
+  make install
+  make test
 fi

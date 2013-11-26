@@ -1,7 +1,7 @@
 #!/bin/sh
 # linux build
 
-COIN_PROJECT=Dip
+COIN_PROJECT=CoinBinary/CoinAll
 PROJECT_VERSION=trunk
 
 # this script could also be useful outside of a wercker context...
@@ -81,7 +81,7 @@ time( make install )
 time( make test )
 
 # clang build, change next line to enable
-if test 1 = 1; then
+if test 1 = 0; then
   sudo apt-get install clang
   # uncomment one of the following cleanup lines if potential problems from past builds (config changes, etc)
   #rm ../build_clang/config.cache || true

@@ -9,7 +9,7 @@ install:
     - sudo apt-get install gfortran
     - gem install gist
 script:
-    - COIN_PROJECT=CoinBinary/CoinAll/trunk
+    - COIN_PROJECT=Dip/trunk
     - echo "CC is $CC, CXX is $CXX, COIN_PROJECT is $COIN_PROJECT"
     - svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT ~/$COIN_PROJECT
 # do svn update in case of connectivity trouble during checkout
@@ -20,13 +20,13 @@ script:
 #    - wget https://projects.coin-or.org/BuildTools/raw-attachment/ticket/95/get_autotools.patch && patch -p0 < get_autotools.patch && cd autotools && chmod +x get.autotools && ./get.autotools > get_autotools.log && export PATH=$PWD/bin:$PATH && export AUTOTOOLS_DIR=$PWD && cd .. && BuildTools/run_autotools > run_autotools.log
     - for i in `ls ThirdParty/*/get.*`; do cd `dirname $i` && ./`basename $i` && cd ../..; done
 # install matplotlib and start xvfb to emulate a display if GIMPy included
-    - "if test -e GIMPy; then sudo apt-get install python-matplotlib && export DISPLAY=:99.0 && sh -e /etc/init.d/xvfb start; fi"
+    - "if test -e GiMPy -o -e src/gimpy; then sudo apt-get install python-matplotlib && export DISPLAY=:99.0 && sh -e /etc/init.d/xvfb start; fi"
 # add a newline at end of CoinUtils/src/CoinLpIO.hpp until fixed
 #    - mkdir -p CoinUtils/src && echo "" >> CoinUtils/src/CoinLpIO.hpp
-    - mkdir build && cd build && if test $CXX = g++; then ../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined"; else ../configure -C --enable-dependency-linking COIN_SKIP_PROJECTS=FlopCpp; fi
+    - mkdir build && cd build && if test $CXX = g++; then ../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined -Wl,--no-as-needed"; else ../configure -C --enable-dependency-linking COIN_SKIP_PROJECTS=FlopCpp; fi
 # download and use a ruby wrapper that just outputs a 10-second heartbeat dot
     - curl -Sso wrap.rb https://gist.github.com/roidrage/5238585/raw
     - chmod +x wrap.rb && ./wrap.rb "make all -j4 > make.log 2>&1"
     - echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL" && gist config.log make.log
 # should upload more of the subdirectory config.log's too once that works
-    - make install && make test
+    - make install && time(make test)

@@ -1,7 +1,7 @@
 #!/bin/sh
 # linux build
 
-COIN_PROJECT=CoinBinary/CoinAll
+COIN_PROJECT=Dip
 PROJECT_VERSION=trunk
 
 # this script could also be useful outside of a wercker context...
@@ -64,21 +64,21 @@ done
 
 # default gcc build
 # uncomment one of the following cleanup lines if potential problems from past builds (config changes, etc)
-rm build/config.cache || true
-rm -rf build || true
+#rm build/config.cache || true
+#rm -rf build || true
 mkdir -p build
 cd build
 do_gist=no
-../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined" || do_gist=yes
+../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined -Wl,--no-as-needed" || do_gist=yes
 if test $do_gist = yes; then
   echo "CONFIG.LOG UPLOADED TO URL:"
   gist config.log
   exit 1
 # should also upload subfolder config.log's, if I can get that to work
 fi
-make all -j4
-make install
-make test
+time(make all -j4)
+time(make install)
+time(make test)
 
 # clang build, change next line to enable
 if test 1 = 1; then
@@ -96,7 +96,7 @@ if test 1 = 1; then
     exit 1
   # should also upload subfolder config.log's, if I can get that to work
   fi
-  make all -j4
-  make install
-  make test
+  time(make all -j4)
+  time(make install)
+  time(make test)
 fi

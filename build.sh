@@ -68,17 +68,17 @@ done
 #rm -rf build || true
 mkdir -p build
 cd build
-do_gist=no
+do_gist=yes
 ../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined -Wl,--no-as-needed" || do_gist=yes
 if test $do_gist = yes; then
   echo "CONFIG.LOG UPLOADED TO URL:"
-  gist config.log
-  exit 1
+  gist config.log Dip/config.log Dip/Makefile
+#  exit 1
 # should also upload subfolder config.log's, if I can get that to work
 fi
-time(make all -j4)
-time(make install)
-time(make test)
+time( make all -j4 )
+time( make install )
+time( make test )
 
 # clang build, change next line to enable
 if test 1 = 1; then
@@ -88,15 +88,15 @@ if test 1 = 1; then
   #rm -rf ../build_clang || true
   mkdir -p ../build_clang
   cd ../build_clang
-  do_gist=no
+  do_gist=yes
   ../configure -C --enable-dependency-linking CC=clang CXX=clang++ COIN_SKIP_PROJECTS=FlopCpp || do_gist=yes
   if test $do_gist = yes; then
     echo "CONFIG.LOG UPLOADED TO URL:"
-    gist config.log
-    exit 1
+    gist config.log Dip/config.log Dip/Makefile
+#    exit 1
   # should also upload subfolder config.log's, if I can get that to work
   fi
-  time(make all -j4)
-  time(make install)
-  time(make test)
+  time( make all -j4 )
+  time( make install )
+  time( make test )
 fi

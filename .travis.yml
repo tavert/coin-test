@@ -27,6 +27,6 @@ script:
 # download and use a ruby wrapper that just outputs a 10-second heartbeat dot
     - curl -Sso wrap.rb https://gist.github.com/roidrage/5238585/raw
     - chmod +x wrap.rb && ./wrap.rb "make all -j4 > make.log 2>&1"
-    - echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL" && gist config.log make.log
+    - echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL" && gist config.log make.log Dip/config.log Dip/Makefile
 # should upload more of the subdirectory config.log's too once that works
-    - make install && time(make test)
+    - make install && time( make test )

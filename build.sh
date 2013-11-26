@@ -58,25 +58,19 @@ for i in `ls ThirdParty/*/get.*`; do
   cd ../..
 done
 
-# add a newline at end of CoinUtils/src/CoinLpIO.hpp until fixed
-#mkdir -p CoinUtils/src
-#echo "" >> CoinUtils/src/CoinLpIO.hpp
-
 # default gcc build
 # uncomment one of the following cleanup lines if potential problems from past builds (config changes, etc)
 #rm build/config.cache || true
 rm -rf build || true
 mkdir -p build
 cd build
-do_gist=no
-../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined -Wl,--no-as-needed" || do_gist=yes
-if test $do_gist = yes; then
-  echo "CONFIG.LOG UPLOADED TO URL:"
-  gist config.log
-  exit 1
+../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined -Wl,--no-as-needed" || true
+# download and use a ruby wrapper that just outputs a 10-second heartbeat dot
+curl -Sso wrap.rb https://gist.github.com/roidrage/5238585/raw
+chmod +x wrap.rb
+./wrap.rb "make all -j4 > make.log 2>&1"
+echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL" && gist config.log make.log
 # should also upload subfolder config.log's, if I can get that to work
-fi
-make all -j4
 make install
 make test
 
@@ -88,15 +82,13 @@ if test 1 = 0; then
   #rm -rf ../build_clang || true
   mkdir -p ../build_clang
   cd ../build_clang
-  do_gist=no
-  ../configure -C --enable-dependency-linking CC=clang CXX=clang++ COIN_SKIP_PROJECTS=FlopCpp LDFLAGS="-Wl,--no-undefined" || do_gist=yes
-  if test $do_gist = yes; then
-    echo "CONFIG.LOG UPLOADED TO URL:"
-    gist config.log
-    exit 1
+  ../configure -C --enable-dependency-linking CC=clang CXX=clang++ COIN_SKIP_PROJECTS=FlopCpp LDFLAGS="-Wl,--no-undefined" || true
+  # download and use a ruby wrapper that just outputs a 10-second heartbeat dot
+  curl -Sso wrap.rb https://gist.github.com/roidrage/5238585/raw
+  chmod +x wrap.rb
+  ./wrap.rb "make all -j4 > make.log 2>&1"
+  echo "CONFIGURE AND MAKE LOGS UPLOADED TO URL" && gist config.log make.log
   # should also upload subfolder config.log's, if I can get that to work
-  fi
-  make all -j4
   make install
   make test
 fi

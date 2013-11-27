@@ -1,7 +1,7 @@
 #!/bin/sh
 # linux build
 
-COIN_PROJECT=CoinBazaar/projects/GIMPy
+COIN_PROJECT=CoinBazaar/projects/GIMPy/GrUMPy
 PROJECT_VERSION=trunk
 
 # this script could also be useful outside of a wercker context...
@@ -35,7 +35,7 @@ cd $WERCKER_CACHE_DIR/$COIN_PROJECT/$PROJECT_VERSION
 
 # install matplotlib and start xvfb to emulate a display if GiMPy included
 if test -e GiMPy -o -e src/gimpy; then
-  sudo apt-get install python-matplotlib xvfb
+  sudo apt-get install python-matplotlib
   export DISPLAY=:99.0
   wget https://raw.github.com/travis-ci/travis-cookbooks/master/ci_environment/xserver/files/default/etc/init.d/xvfb.sh
   chmod 755 xvfb.sh
@@ -43,9 +43,9 @@ if test -e GiMPy -o -e src/gimpy; then
   sh -e /etc/init.d/xvfb start
 fi
 # install pulp if GrUMPy included
-if test -e GrUMPy -o -e src/grumpy; then
-  sudo easy_install pulp
-fi
+#if test -e GrUMPy -o -e src/grumpy; then
+#  sudo easy_install pulp
+#fi
 
 # run autotools (old versions currently used)?
 if test 1 = 0; then

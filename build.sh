@@ -43,9 +43,9 @@ if test -e GiMPy -o -e src/gimpy; then
   sh -e /etc/init.d/xvfb start
 fi
 # install pulp if GrUMPy included
-#if test -e GrUMPy -o -e src/grumpy; then
-#  sudo easy_install pulp
-#fi
+if test -e GrUMPy -o -e src/grumpy; then
+  sudo easy_install pulp
+fi
 
 # run autotools (old versions currently used)?
 if test 1 = 0; then
@@ -86,7 +86,6 @@ if test $do_gist = yes; then
 fi
 make all -j4
 make install
-cd GrUMPy
 make test
 
 # clang build, change next line to enable

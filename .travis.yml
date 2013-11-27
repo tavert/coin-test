@@ -5,15 +5,15 @@ language: cpp
 #    - clang
 env:
     - MYCC=gcc MYCXX=g++ F77=gfortran
-    - MYCC=gcc-4.4 MYCXX=g++-4.4 F77=gfortran-4.4
-    - MYCC=gcc-4.5 MYCXX=g++-4.5 F77=gfortran-4.5
+#    - MYCC=gcc-4.4 MYCXX=g++-4.4 F77=gfortran-4.4
+#    - MYCC=gcc-4.5 MYCXX=g++-4.5 F77=gfortran-4.5
     - MYCC=clang MYCXX=clang++ F77=gfortran
 before_install:
     - sudo apt-get update -qq
 install:
     - gem install gist
 script:
-    - COIN_PROJECT=Cbc/trunk
+    - COIN_PROJECT=CoinBinary/CoinAll/trunk
 # travis annoyingly sets CC and CXX for language: cpp
     - export CC=$MYCC && export CXX=$MYCXX
     - echo "CC is $CC, CXX is $CXX, F77 is $F77, COIN_PROJECT is $COIN_PROJECT"
@@ -28,9 +28,9 @@ script:
 # run autotools
 #    - wget https://projects.coin-or.org/BuildTools/raw-attachment/ticket/95/get_autotools.patch && patch -p0 < get_autotools.patch && cd autotools && chmod +x get.autotools && ./get.autotools > get_autotools.log && export PATH=$PWD/bin:$PATH && export AUTOTOOLS_DIR=$PWD && cd .. && BuildTools/run_autotools > run_autotools.log
     - for i in `ls ThirdParty/*/get.*`; do cd `dirname $i` && ./`basename $i` && cd ../..; done
-#COIN_SKIP_PROJECTS=FlopCpp
-#    - mkdir build && cd build && if test $CXX = g++; then ../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined -Wl,--no-as-needed"; else ../configure -C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined"; fi
-    - mkdir build && cd build && ../configure -C
+    - config_flags='-C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined -Wl,--no-as-needed"'
+    - mkdir build && cd build && if test $CXX = g++; then ../configure $config_flags; else ../configure $config_flags COIN_SKIP_PROJECTS=FlopCpp; fi
+#    - mkdir build && cd build && ../configure -C
 # download and use a ruby wrapper that just outputs a 10-second heartbeat dot
     - curl -Sso wrap.rb https://gist.github.com/roidrage/5238585/raw
     - chmod +x wrap.rb && ./wrap.rb "make all -j4 > make.log 2>&1"

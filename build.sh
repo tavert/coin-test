@@ -39,7 +39,7 @@ if test -e GiMPy -o -e src/gimpy; then
   export DISPLAY=:99.0
   wget https://raw.github.com/travis-ci/travis-cookbooks/master/ci_environment/xserver/files/default/etc/init.d/xvfb.sh
   chmod 755 xvfb.sh
-  sudo mv xvfb.sh /etc/init.d
+  sudo mv xvfb.sh /etc/init.d/xvfb
   sh -e /etc/init.d/xvfb start
 fi
 # install pulp if GrUMPy included

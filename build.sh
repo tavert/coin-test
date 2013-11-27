@@ -7,10 +7,8 @@ PROJECT_VERSION=trunk
 # this script could also be useful outside of a wercker context...
 if test -z "$WERCKER_CACHE_DIR"; then
   WERCKER_CACHE_DIR=$HOME
-fi
-
 # install prerequisites
-if ! test -L /var/cache/apt/archives; then
+elif ! test -L /var/cache/apt/archives; then
 # link apt-get cache into WERCKER_CACHE_DIR
   mkdir -p $WERCKER_CACHE_DIR/apt-get
   sudo rm -r /var/cache/apt/archives
@@ -38,8 +36,8 @@ cd $WERCKER_CACHE_DIR/$COIN_PROJECT/$PROJECT_VERSION
 # install matplotlib and start xvfb to emulate a display if GiMPy included
 if test -e GiMPy -o -e src/gimpy; then
   sudo apt-get install python-matplotlib
-#  export DISPLAY=:99.0
-#  sh -e /etc/init.d/xvfb start
+  export DISPLAY=:99.0
+  sh -e /etc/init.d/xvfb start
 fi
 # install pulp if GrUMPy included
 if test -e GrUMPy -o -e src/grumpy; then

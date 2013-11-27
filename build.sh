@@ -1,7 +1,7 @@
 #!/bin/sh
 # linux build
 
-COIN_PROJECT=CoinBazaar/projects/GIMPy/GrUMPy
+COIN_PROJECT=CoinBinary/CoinAll
 PROJECT_VERSION=trunk
 
 # this script could also be useful outside of a wercker context...
@@ -86,6 +86,7 @@ if test $do_gist = yes; then
 fi
 make all -j4
 make install
+cd GrUMPy
 make test
 
 # clang build, change next line to enable

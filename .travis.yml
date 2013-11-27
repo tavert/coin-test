@@ -4,17 +4,19 @@ language: cpp
 #    - gcc
 #    - clang
 env:
-    - CC=gcc CXX=g++ F77=gfortran
-    - CC=gcc-4.4 CXX=g++-4.4 F77=gfortran-4.4
-    - CC=gcc-4.5 CXX=g++-4.5 F77=gfortran-4.5
-    - CC=clang CXX=clang++ F77=gfortran
+    - MYCC=gcc MYCXX=g++ F77=gfortran
+    - MYCC=gcc-4.4 MYCXX=g++-4.4 F77=gfortran-4.4
+    - MYCC=gcc-4.5 MYCXX=g++-4.5 F77=gfortran-4.5
+    - MYCC=clang MYCXX=clang++ F77=gfortran
 before_install:
     - sudo apt-get update -qq
 install:
     - gem install gist
 script:
     - COIN_PROJECT=Cbc/trunk
-    - echo "CC is $CC, CXX is $CXX, COIN_PROJECT is $COIN_PROJECT"
+# travis annoyingly sets CC and CXX for language: cpp
+    - export CC=$MYCC && export CXX=$MYCXX
+    - echo "CC is $CC, CXX is $CXX, F77 is $F77, COIN_PROJECT is $COIN_PROJECT"
     - sudo apt-get install $CC $CXX $F77
     - svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT ~/$COIN_PROJECT
 # do svn update in case of connectivity trouble during checkout

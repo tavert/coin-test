@@ -17,7 +17,7 @@ script:
 # travis annoyingly sets CC and CXX for language: cpp
     - export CC=$MYCC && export CXX=$MYCXX
     - echo "CC is $CC, CXX is $CXX, F77 is $F77, COIN_PROJECT is $COIN_PROJECT"
-    - sudo apt-get install $CC $CXX $F77
+    - sudo apt-get install $CC $F77 && if ! test $CXX = clang++; then sudo apt-get install $CXX; fi
     - svn co -q --non-interactive --trust-server-cert https://projects.coin-or.org/svn/$COIN_PROJECT ~/$COIN_PROJECT
 # do svn update in case of connectivity trouble during checkout
     - cd ~/$COIN_PROJECT && svn update --non-interactive --trust-server-cert

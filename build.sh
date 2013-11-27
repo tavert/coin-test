@@ -1,7 +1,7 @@
 #!/bin/sh
 # linux build
 
-COIN_PROJECT=CoinBinary/CoinAll
+COIN_PROJECT=CoinBazaar/projects/GIMPy
 PROJECT_VERSION=trunk
 
 # this script could also be useful outside of a wercker context...
@@ -34,6 +34,17 @@ fi
 cd $WERCKER_CACHE_DIR/$COIN_PROJECT/$PROJECT_VERSION
 # do svn update in case of connectivity trouble during checkout (seems to only be a travis problem)
 #svn update --non-interactive --trust-server-cert
+
+# install matplotlib and start xvfb to emulate a display if GiMPy included
+if test -e GiMPy -o -e src/gimpy; then
+  sudo apt-get install python-matplotlib
+#  export DISPLAY=:99.0
+#  sh -e /etc/init.d/xvfb start
+fi
+# install pulp if GrUMPy included
+if test -e GrUMPy -o -e src/grumpy; then
+  sudo easy_install pulp
+fi
 
 # run autotools (old versions currently used)?
 if test 1 = 0; then

@@ -74,7 +74,7 @@ if test $do_gist = yes; then
 fi
 make all -j4
 make install
-make test
+#make test
 
 # clang build, change next line to enable
 if test 1 = 0; then

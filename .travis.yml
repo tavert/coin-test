@@ -28,7 +28,7 @@ script:
 # run autotools
 #    - wget https://projects.coin-or.org/BuildTools/raw-attachment/ticket/95/get_autotools.patch && patch -p0 < get_autotools.patch && cd autotools && chmod +x get.autotools && ./get.autotools > get_autotools.log && export PATH=$PWD/bin:$PATH && export AUTOTOOLS_DIR=$PWD && cd .. && BuildTools/run_autotools > run_autotools.log
     - for i in `ls ThirdParty/*/get.*`; do cd `dirname $i` && ./`basename $i` && cd ../..; done
-    - config_flags='-C --enable-dependency-linking LDFLAGS="-Wl,--no-undefined -Wl,--no-as-needed"'
+    - config_flags='-C --enable-dependency-linking LDFLAGS=-Wl,--no-undefined,--no-as-needed'
     - mkdir build && cd build && if test $CXX = g++; then ../configure $config_flags; else ../configure $config_flags COIN_SKIP_PROJECTS=FlopCpp; fi
 #    - mkdir build && cd build && ../configure -C
 # download and use a ruby wrapper that just outputs a 10-second heartbeat dot
